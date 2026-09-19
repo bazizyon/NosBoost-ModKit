@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure
-        run: cmake -S . -B build
+        run: cmake -S . -B build -A Win32
 
       - name: Build (Release only)
         run: cmake --build build --config Release
@@ -30,6 +30,7 @@ jobs:
           echo "path=$($dll.FullName)" >> $env:GITHUB_OUTPUT
 
       - name: Attach DLL to the GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
           files: ${{ steps.dll.outputs.path }}
