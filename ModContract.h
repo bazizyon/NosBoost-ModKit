@@ -18,6 +18,10 @@ struct ModClassRequirement {
     uint32_t RequiredSize;
 };
 
+struct TickContext {
+    bool isPlayerLoaded;
+};
+
 namespace Packet {
     using ErasedPacketHandler = bool(*)(const void* Raw, void* HandlerPtr);
 
@@ -155,5 +159,5 @@ namespace Widget {
 using ModGetRequirementsFn = const ModClassRequirement*(*)(size_t*);
 using ModStartupFn = void(*)(ImGuiContext*, ImGuiMemAllocFunc, ImGuiMemFreeFunc, void*, const ModHost*);
 using ModShutdownFn = void(*)();
-using ModTickFn = void(*)(TLBSWidget*);
+using ModTickFn = __cdecl void(*)(TLBSWidget*, TickContext);
 using ModToggleMainWindowFn = void(*)();
