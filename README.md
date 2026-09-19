@@ -11,11 +11,11 @@ NosBoost is a small system that runs inside the game. It can load extra DLL file
 
 ## How to make your mod
 
-1. Fork this repo.
+1. Use this repository as template.
 2. Open it in CLion (or any CMake-based IDE) and build it. You do not need to download anything else by hand. The build automatically fetches the SDK and ImGui for you.
 3. Rename the `ExampleMod` folder and its `.cpp` file to your mod's name. Open the top-level `CMakeLists.txt` and change every place it says `ExampleMod` to your new name (the file names, the `add_library` name, and the target name in `target_include_directories` / `target_compile_options` / `set_target_properties`).
 4. Open your mod's `.cpp` file and write your own code. Use the tools from `ModContract.h` to make widgets (buttons, labels, panels) or to read packets sent by the server.
-5. Build your mod. It compiles into a DLL and is placed straight into the game's `mods` folder. The next time NosBoost starts, it finds your DLL and loads it automatically.
+5. Build your mod or push a version with a tag in form v* (v0.1 for example). It compiles into a DLL and is placed straight into the game's `mods` folder or in GitHub releases. The next time NosBoost starts, it finds your DLL and loads it automatically.
 
 ## What the SDK is for
 
