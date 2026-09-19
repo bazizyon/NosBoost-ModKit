@@ -1,0 +1,35 @@
+name: Build Release DLL
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -S . -B build
+
+      - name: Build (Release only)
+        run: cmake --build build --config Release
+
+      - name: Find the built DLL
+        id: dll
+        shell: pwsh
+        run: |
+          $dll = Get-ChildItem -Path build -Recurse -Filter *.dll | Select-Object -First 1
+          echo "path=$($dll.FullName)" >> $env:GITHUB_OUTPUT
+
+      - name: Attach DLL to the GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ${{ steps.dll.outputs.path }}
