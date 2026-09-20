@@ -78,7 +78,7 @@ extern "C" {
 
     // Mod Tick is called every EndFrame.
     // Every widget is under RootWidget.
-    __declspec(dllexport) void ModTick(const TLBSWidget* RootWidget) {
+    __declspec(dllexport) void ModTick(const TLBSWidget* RootWidget, const TickContext tickContext) {
         // Example: calling another mod's export and reporting our own
         // status based on whether it's there. Resolved fresh every tick, never cached
         // if (CachedHost) {
