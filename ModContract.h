@@ -99,6 +99,8 @@ struct ModHost {
     // This mod's own self-reported health, shown in the F9 menu -- see
     // ModHealthLevel above.
     void(* ReportStatus)(ModHealthLevel Level, const char* Message);
+
+    void(* InjectSendRawPacket)(const char* Packet);
 };
 
 namespace Packet {
