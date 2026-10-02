@@ -160,10 +160,18 @@ namespace Widget {
 // void ModTick(TLBSWidget* RootWidget);
 //     Once per tick while started. RootWidget may be null -- check first.
 //
+// void ModEarlyTick(TLBSWidget* RootWidget, TickContext tickContext);
+//     Optional. Runs once per frame like ModTick, but at the start of the frame
+//     instead of the end. The game doesn't move widgets anymore once it starts
+//     drawing the frame, so if you move a widget in ModTick it only shows up the
+//     next frame. Move it here and it shows up in the same frame. Use this when
+//     you keep a widget stuck to another one so it doesn't lag a frame behind.
+//
 // void ModToggleMainWindow();
 //     Called on the mod's F9-menu click -- flip your own visibility flag.
 using ModGetRequirementsFn = const ModClassRequirement*(*)(size_t*);
 using ModStartupFn = void(*)(ImGuiContext*, ImGuiMemAllocFunc, ImGuiMemFreeFunc, void*, const ModHost*);
 using ModShutdownFn = void(*)();
 using ModTickFn = __cdecl void(*)(TLBSWidget*, TickContext);
+using ModEarlyTickFn = void(__cdecl*)(TLBSWidget*, TickContext);
 using ModToggleMainWindowFn = void(*)();
