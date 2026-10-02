@@ -1,7 +1,8 @@
-#include "../ModContract.h"
+#include "ModContract.h"
 #include "ExampleModAPI.h"
 #include "TLBSWidget.h"
 #include "TEWLabel.h"
+#include "WidgetKit.h"
 #include "LevPacket.h"
 
 #include <chrono>
@@ -104,6 +105,15 @@ extern "C" {
         // if (NewLabel && RootWidget) {
         //     NewLabel->parent = const_cast<TLBSWidget*>(RootWidget);
         //     RootWidget->childrenList->push_back(NewLabel);
+        // }
+        //
+        // Same thing but a whole window, made with WidgetKit.
+        //
+        // const WidgetKit::WindowDesc Desc{WidgetKit::WindowStyle::Plain, 100, 100, 300, 200, L"Example Window", true};
+        // TEWCustomPanelWidget* NewWindow = WidgetKit::CreateGameWindow(CachedHost, Desc);
+        // if (NewWindow && RootWidget) {
+        //     NewWindow->parent = const_cast<TLBSWidget*>(RootWidget);
+        //     RootWidget->childrenList->push_back(NewWindow);
         // }
 
         if (!WindowVisible) return;

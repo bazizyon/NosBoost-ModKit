@@ -22,6 +22,7 @@ FetchContent_MakeAvailable(imgui)
 
 add_library(ExampleMod SHARED
         ExampleMod/ExampleMod.cpp
+        WidgetKit/WidgetKit.cpp
         ${imgui_SOURCE_DIR}/imgui.cpp
         ${imgui_SOURCE_DIR}/imgui_draw.cpp
         ${imgui_SOURCE_DIR}/imgui_tables.cpp
@@ -29,7 +30,8 @@ add_library(ExampleMod SHARED
 )
 
 target_include_directories(ExampleMod PRIVATE
-        ${CMAKE_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/WidgetKit
         ${nosboost_sdk_SOURCE_DIR}/classes
         ${nosboost_sdk_SOURCE_DIR}/classes/enums
         ${nosboost_sdk_SOURCE_DIR}/classes/structs
