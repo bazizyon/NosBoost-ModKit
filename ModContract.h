@@ -20,6 +20,12 @@ struct ModClassRequirement {
 
 struct TickContext {
     bool isPlayerLoaded;
+    float mouseWheel;
+    int32_t mouseX;
+    int32_t mouseY;
+    int32_t playerX;
+    int32_t playerY;
+    int32_t mapId;
 };
 
 namespace Packet {
