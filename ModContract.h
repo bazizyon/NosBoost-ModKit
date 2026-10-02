@@ -20,12 +20,12 @@ struct ModClassRequirement {
 
 struct TickContext {
     bool isPlayerLoaded;
-    float mouseWheel;
+    float mouseWheel; // only filled in ModEarlyTick, always 0 in ModTick
     int32_t mouseX;
     int32_t mouseY;
-    int32_t playerX;
+    int32_t playerX;  // -1 when no character is loaded
     int32_t playerY;
-    int32_t mapId;
+    int32_t mapId;    // -1 until the first map change after NosBoost loads
 };
 
 namespace Packet {
