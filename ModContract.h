@@ -174,6 +174,6 @@ namespace Widget {
 using ModGetRequirementsFn = const ModClassRequirement*(*)(size_t*);
 using ModStartupFn = void(*)(ImGuiContext*, ImGuiMemAllocFunc, ImGuiMemFreeFunc, void*, const ModHost*);
 using ModShutdownFn = void(*)();
-using ModTickFn = __cdecl void(*)(TLBSWidget*, TickContext);
+using ModTickFn = void(__cdecl*)(TLBSWidget*, TickContext);
 using ModEarlyTickFn = void(__cdecl*)(TLBSWidget*, TickContext);
 using ModToggleMainWindowFn = void(*)();
