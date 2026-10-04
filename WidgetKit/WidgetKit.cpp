@@ -335,4 +335,56 @@ namespace WidgetKit {
         }
         return Window;
     }
+
+    namespace {
+        UiImage LoadUiImageBytes(const ModHost* Host, const void* Data, const uint32_t Size) {
+            UiImage Image;
+            if (Host && Host->LoadUiImage && Data && Size) {
+                Image.Id = Host->LoadUiImage(Data, Size, &Image.Width, &Image.Height);
+            }
+            return Image;
+        }
+    }
+
+    UiImage LoadUiImageResource(const ModHost* Host, const HMODULE Module, const char* ResourceName) {
+        HRSRC Resource = FindResourceA(Module, ResourceName, MAKEINTRESOURCEA(10));
+        HGLOBAL Loaded = Resource ? LoadResource(Module, Resource) : nullptr;
+        const void* Data = Loaded ? LockResource(Loaded) : nullptr;
+        return LoadUiImageBytes(Host, Data, Resource ? SizeofResource(Module, Resource) : 0);
+    }
+
+    UiImage LoadUiImageFile(const ModHost* Host, const char* Path) {
+        std::string Full = Path ? Path : "";
+        if (Full.size() < 2 || Full[1] != ':') {
+            char Exe[MAX_PATH]{};
+            GetModuleFileNameA(nullptr, Exe, MAX_PATH);
+            std::string Folder(Exe);
+            Full = Folder.substr(0, Folder.find_last_of("\/") + 1) + Full;
+        }
+        HANDLE File = CreateFileA(Full.c_str(), GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
+        if (File == INVALID_HANDLE_VALUE) return {};
+        std::vector<uint8_t> Bytes(GetFileSize(File, nullptr));
+        DWORD Read = 0;
+        const bool Ok = ReadFile(File, Bytes.data(), static_cast<DWORD>(Bytes.size()), &Read, nullptr) && Read == Bytes.size();
+        CloseHandle(File);
+        return Ok ? LoadUiImageBytes(Host, Bytes.data(), static_cast<uint32_t>(Bytes.size())) : UiImage{};
+    }
+
+    TEWControlWidget* CreateImage(const ModHost* Host, const UiImage& Image, const int16_t X, const int16_t Y,
+                                  AtlasFrame Frame) {
+        if (!Image) return nullptr;
+        TEWControlWidget* Sprite = Widget::Create<TEWControlWidget>(Host);
+        if (!Sprite) return nullptr;
+        if (Frame.width == 0 || Frame.height == 0) {
+            Frame = {0, 0, static_cast<int16_t>(Image.Width), static_cast<int16_t>(Image.Height)};
+        }
+        delete[] Sprite->imageData.atlasFrames;
+        Sprite->imageData.imageName = Image.Id;
+        Sprite->imageData.imageWidth = static_cast<int16_t>(Image.Width);
+        Sprite->imageData.imageHeight = static_cast<int16_t>(Image.Height);
+        Sprite->imageData.frameCount = 1;
+        Sprite->imageData.atlasFrames = new AtlasFrame[1]{Frame};
+        Sprite->rect = {X, Y, static_cast<int16_t>(X + Frame.width), static_cast<int16_t>(Y + Frame.height)};
+        return Sprite;
+    }
 }

@@ -6,6 +6,7 @@
 #include "TEWGraphicButtonWidget.h"
 #include "TEWEditWidget.h"
 #include "TEWButtonWidget.h"
+#include "TEWControlWidget.h"
 #include <string>
 #include <vector>
 
@@ -106,4 +107,18 @@ namespace WidgetKit {
     };
 
     TEWCustomPanelWidget* CreateGameWindow(const ModHost* Host, const WindowDesc& Desc);
+
+    struct UiImage {
+        int32_t Id = 0;
+        uint16_t Width = 0;
+        uint16_t Height = 0;
+        explicit operator bool() const { return Id != 0; }
+    };
+
+    UiImage LoadUiImageResource(const ModHost* Host, HMODULE Module, const char* ResourceName);
+
+    UiImage LoadUiImageFile(const ModHost* Host, const char* Path);
+
+    TEWControlWidget* CreateImage(const ModHost* Host, const UiImage& Image, int16_t X, int16_t Y,
+                                  AtlasFrame Frame = {0, 0, 0, 0});
 }

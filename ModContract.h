@@ -101,6 +101,9 @@ struct ModHost {
     void(* ReportStatus)(ModHealthLevel Level, const char* Message);
 
     void(* InjectSendRawPacket)(const char* Packet);
+
+    // PNG bytes into the game's UI texture cache. Returns the image id (imageData.imageName), 0 if it fails.
+    int32_t(* LoadUiImage)(const void* PngData, uint32_t Size, uint16_t* Width, uint16_t* Height);
 };
 
 namespace Packet {
