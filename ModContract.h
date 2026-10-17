@@ -106,6 +106,9 @@ struct ModHost {
 
     // PNG bytes into the game's UI texture cache. Returns the image id (imageData.imageName), 0 if it fails.
     int32_t(* LoadUiImage)(const void* PngData, uint32_t Size, uint16_t* Width, uint16_t* Height);
+
+    // Sees every packet in both directions, read only. One per mod, nullptr removes it.
+    void(* SetRawPacketObserver)(void(* Observer)(const char* Packet, bool IsSend));
 };
 
 namespace Packet {
