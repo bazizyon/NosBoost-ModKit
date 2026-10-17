@@ -109,6 +109,14 @@ struct ModHost {
 
     // Sees every packet in both directions, read only. One per mod, nullptr removes it.
     void(* SetRawPacketObserver)(void(* Observer)(const char* Packet, bool IsSend));
+
+    // Draws a PNG instead of a game texture. Cache 0 is map and characters, 1 effects, 2 UI.
+    bool(* ReplaceGameTexture)(uint32_t Cache, int32_t TextureId, const void* PngData, uint32_t Size);
+    // Puts the game's own texture back. Also happens when the mod unloads.
+    void(* RestoreGameTexture)(uint32_t Cache, int32_t TextureId);
+
+    // Like LoadUiImage but for any texture cache. Returns the new texture id, 0 if it fails.
+    int32_t(* LoadGameImage)(uint32_t Cache, const void* PngData, uint32_t Size, uint16_t* Width, uint16_t* Height);
 };
 
 namespace Packet {
