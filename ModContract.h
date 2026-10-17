@@ -26,6 +26,8 @@ struct TickContext {
     int32_t playerX;  // -1 when no character is loaded
     int32_t playerY;
     int32_t mapId;    // -1 until the first map change after NosBoost loads
+    int32_t mapWidth; // map grid size in cells, -1 when no map is loaded
+    int32_t mapHeight;
 };
 
 namespace Packet {
