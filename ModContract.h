@@ -119,6 +119,8 @@ struct ModHost {
     int32_t(* LoadGameImage)(uint32_t Cache, const void* PngData, uint32_t Size, uint16_t* Width, uint16_t* Height);
     // Adds an effect in NSeffData format, its first u32 is the id. The game can spawn it like its own.
     bool(* RegisterEffect)(const void* Definition, uint32_t Size);
+
+    void(* SetEscapeClose)(TLBSWidget* Window, void(* Close)(void* Argument), void* Argument);
 };
 
 namespace Packet {
